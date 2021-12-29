@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mukul_app01
+  name: mukul-app01
 spec:
   selector:
     matchLabels:
-      app: mukul_app01
+      app: mukul-app01
   template:
     metadata:
       labels:
-        app: mukul_app01
+        app: mukul-app01
     spec:
       containers:
-      - name: mukul_app01_container
-        image: <Image>
+      - name: mukul-app01-container
+        image: barclaysacr02.azurecr.io/mukulapp:latest
         resources:
           limits:
             memory: "128Mi"
