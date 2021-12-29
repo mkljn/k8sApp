@@ -1,0 +1,50 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+
+  build_Push_image:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag barclaysacr02.azurecr.io/mukulApp:latest
+      
+    - name: Azure Container Registry Login
+      uses: Azure/docker-login@v1
+      with:
+        # Container registry username
+        username: barclaysacr02
+        # Container registry password
+        password: AFnp+BILCUFnV9EuVTr9sxOBt/KqS=yU
+        # Container registry server url
+        login-server: barclaysacr02.azurecr.io
+        
+    - name: Push the Docker image
+      run: docker push barclaysacr02.azurecr.io/mukulApp:latest
+    
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build_push_image # Will wait for the execution of the previous job
+    steps:
+    - uses: actions/checkout@v2
+    
+    
+    - name: Kubernetes set context
+      uses: Azure/k8s-set-context@v1
+      with:
+        kubeconfig: ${{secrets.KUBECONFIG}}  
+      id: login
+      
+    - name: Apply AKS Deployment
+      run: kubectl apply -f deployment.yaml
+      
+    - name: Apply AKS Deployment
+      run: kubectl apply -f service.yaml
