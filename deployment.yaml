@@ -5,11 +5,11 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: mukul-app01
+      app: mukul-app01-pod
   template:
     metadata:
       labels:
-        app: mukul-app01
+        app: mukul-app01-pod
     spec:
       containers:
       - name: mukul-app01-container
