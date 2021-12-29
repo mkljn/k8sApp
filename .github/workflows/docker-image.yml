@@ -2,20 +2,20 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
   pull_request:
-    branches: [ main ]
+    branches: [ master ]
 
 jobs:
 
-  build_Push_image:
+  build_push_image:
 
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag barclaysacr02.azurecr.io/mukulApp:latest
+      run: docker build . --file Dockerfile --tag barclaysacr02.azurecr.io/mukulapp:latest
       
     - name: Azure Container Registry Login
       uses: Azure/docker-login@v1
@@ -28,7 +28,7 @@ jobs:
         login-server: barclaysacr02.azurecr.io
         
     - name: Push the Docker image
-      run: docker push barclaysacr02.azurecr.io/mukulApp:latest
+      run: docker push barclaysacr02.azurecr.io/mukulapp:latest
     
   deploy:
     runs-on: ubuntu-latest
