@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mukul_app01
+spec:
+  selector:
+    matchLabels:
+      app: mukul_app01
+  template:
+    metadata:
+      labels:
+        app: mukul_app01
+    spec:
+      containers:
+      - name: mukul_app01_container
+        image: <Image>
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 5000
